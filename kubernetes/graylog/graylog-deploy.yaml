@@ -24,7 +24,7 @@ spec:
         - name: GRAYLOG_ROOT_PASSWORD_SHA2
           value: 6d6edcea1c93df7f546cd4e736371c5794c9d7497bdc28053293c37eb8d350a3
         - name: GRAYLOG_HTTP_EXTERNAL_URI
-          value: http://10.101.41.239:9000/
+          value: http://127.0.0.1:9000/
         - name: GRAYLOG_ELASTICSEARCH_HOSTS
           value: http://es6:9200
         - name: GRAYLOG_MONGODB_URI
@@ -40,7 +40,7 @@ metadata:
   name: graylog3
   namespace: graylog
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   selector:
     service: graylog-deploy
   ports:
