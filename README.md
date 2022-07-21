@@ -134,7 +134,7 @@ Você também pode verificar os pods criados por estes deploys:
 
 Depois de iniciar o Graylog, você pode fazer login na interface web Graylog da seguinte maneira:
 
-<br/><br/>![Página de login do Graylog](images/loging-page.PNG)
+<br/><br/>![Página de login do Graylog](kubernetes/graylog/images/loging-page.PNG)
 
 > Altere <your_ip_address> pelo seu endereço definido nos passos acima
 > Usuário: admin
@@ -183,6 +183,7 @@ kubectl apply -f fluent-bit-graylog-ds.yaml
 
 ```
 cd <raiz do repositorio>/kubernetes/prometheus
+kubectl create ns monitoring
 kubectl apply -f clusterRole.yaml
 kubectl apply -f config-map.yaml -n monitoring
 kubectl apply -f prometheus-deployment.yaml -n monitoring
@@ -251,7 +252,7 @@ kubectl apply -f service.yaml
 Aguardar alguns minutos e verificar a IP/porta em que o serviço do Grafana está exposto:
 
 ```
-kubectl get service/grafana -n monitoring 
+kubectl get service/grafana -n observability 
 ```
 
 Apontar o navegador para o IP/porta para acessar o serviço
