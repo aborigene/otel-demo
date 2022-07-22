@@ -54,7 +54,7 @@ data:
     [OUTPUT]
         Name                    gelf
         Match                   *
-        Host                    10.106.226.166
+        Host                    10.110.136.191
         Port                    12201
         Mode                    tcp
         Gelf_Short_Message_Key  log 

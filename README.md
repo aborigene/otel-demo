@@ -252,7 +252,7 @@ kubectl apply -f service.yaml
 Aguardar alguns minutos e verificar a IP/porta em que o serviço do Grafana está exposto:
 
 ```
-kubectl get service/grafana -n observability 
+kubectl get service/grafana -n monitoring 
 ```
 
 Apontar o navegador para o IP/porta para acessar o serviço
@@ -272,7 +272,8 @@ kubectl apply -f .
 
 ```
 cd <raiz do repositorio>/kubernetes/opentelemetry
-kubectl apply -f opentelemetry-collector.yaml 
+kubect create ns otel
+kubectl apply -f opentelemetry-collector.yaml -n otel
 ```
 
 A aplicão não tem interface exposta, o gerador de carga irá gerar tráfego para os testes.
