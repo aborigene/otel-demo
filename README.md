@@ -43,16 +43,15 @@ minikube tunnel
 
 Este comando permitirá o acesso às aplicações rodando dentro do cluster Kubernetes.
 
-
 Para subir o ambiente vamos executar os passos abaixo
 
 1. Setup do Graylog
 
-Os arquivos para deploy do lab Graylog estão no diretório ```<RAIZ_DO_REPO>/kubernetes/graylog```.
+Os arquivos para deploy do lab Graylog estão no diretório `<RAIZ_DO_REPO>/kubernetes/graylog`.
 
 Acesse esse diretório para a execução dos comandos:
 
-```cd <RAIZ_DO_REPO>/kubernetes/graylog```
+`cd <RAIZ_DO_REPO>/kubernetes/graylog`
 
 Você deve alterar a senha padrão para fazer login na interface web do Graylog, para isso você deve executar o seguinte
 comando em seu terminal
@@ -61,11 +60,12 @@ comando em seu terminal
 echo -n "Enter Password: " && head -1 </dev/stdin | tr -d '\n' | sha256sum | cut -d " " -f 1
 
 ```
+
 Este comando solicitará que você insira sua senha e, em seguida, copie a senha com hash gerada e guarde em um arquivo temporário.
 
 Edit o arquivo graylog-deploy.yaml:
 
-```vim gryalog-deploy.yaml```
+`vim gryalog-deploy.yaml`
 
 Nesse arquivo adicione os valores listados nos próximos passos.
 
@@ -75,6 +75,7 @@ Você precisa personalizar o valor GRAYLOG_HTTP_EXTERNAL_URI para que ele aponte
   - name: GRAYLOG_HTTP_EXTERNAL_URI
     value: #your_remote_or_localhost_ip
 ```
+
 Inicialmente não altere o valor acima, ajustaremos esse valor após o deploy do serviço.
 
 No passo abaixo adicione a senha que você gerou anteriormente:
@@ -105,7 +106,7 @@ kubectl get service -n graylog
 
 Procure na lista o IP real referente ao serviço graylog3, altere o arquivo graylog-deploy.yaml adicionando esse IP:
 
-```vim gryalog-deploy.yaml```
+`vim gryalog-deploy.yaml`
 
 ```
   - name: GRAYLOG_HTTP_EXTERNAL_URI
@@ -123,13 +124,13 @@ Você pode verificar a implantação usando o seguinte comando:
 ```
  kubectl get deploy -n graylog
 ```
- 
+
 Você também pode verificar os pods criados por estes deploys:
 
 ```
  kubectl get pods -n graylog
 ```
- 
+
 #### Faça login na interface web do Graylog:
 
 Depois de iniciar o Graylog, você pode fazer login na interface web Graylog da seguinte maneira:
@@ -141,6 +142,7 @@ Depois de iniciar o Graylog, você pode fazer login na interface web Graylog da 
 > Senha: a que você criou nos passos acima
 
 #### Criando uma entrada TCP Gelf
+
 Após o login temos que criar uma entrada para receber as mensagens de logs.
 Para fazer isso:
 
@@ -155,7 +157,7 @@ Para fazer isso:
 cd <base do repositorio>/kubernetes/fluentbit
 kubectl create namespace logging
 kubectl apply -f service-account.yaml
-kubectl apply -f rbac-role.yam
+kubectl apply -f rbac-role.yaml
 kubectl apply -f role-binding.yaml
 ```
 
@@ -169,7 +171,7 @@ Editar o arquivo fluent-bit-cm.yaml na sessão output-graylog.conf adicionar o i
         Host                    10.0.10.144
         Port                    12201
         Mode                    tcp
-        Gelf_Short_Message_Key  log 
+        Gelf_Short_Message_Key  log
 ```
 
 Executar os deploys:
@@ -193,7 +195,7 @@ kubectl apply -f prometheus-service.yaml -n monitoring
 Aguardar alguns minutos e verificar a IP/porta em que o serviço do Prometheus está exposto:
 
 ```
-kubectl get service/prometheus-service -n monitoring 
+kubectl get service/prometheus-service -n monitoring
 ```
 
 Apontar o navegador para o IP/porta para acessar o serviço
@@ -201,14 +203,17 @@ Apontar o navegador para o IP/porta para acessar o serviço
 4. Setup do Jaegger
 
 Instalar o cert manager:
+
 ```
 kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.6.2/cert-manager.yaml
 ```
 
 Configurar um ingress controller, no minikube usar o parâmetro
+
 ```
 --addons=ingress
 ```
+
 Seguir com a aplicação dos arquivos:
 
 ```
@@ -218,12 +223,15 @@ kubectl create namespace observability
 kubectl create -f https://github.com/jaegertracing/jaeger-operator/releases/download/v1.32.0/jaeger-operator.yaml -n observability
 
 ```
+
 Verificar que operator está rodando:
+
 ```
 kubectl get deployment jaeger-operator -n observability
 ```
 
 Criar o Jaeger:
+
 ```
 kubectl apply -f jaeger.yaml -n observability
 ```
@@ -231,9 +239,11 @@ kubectl apply -f jaeger.yaml -n observability
 Aguardar alguns minutos e verificar a IP/porta em que o serviço do Jaeger está exposto:
 
 ```
-kubectl get service/simplest-query -n monitoring 
+kubectl get service/simplest-query -n monitoring
 ```
+
 ou
+
 ```
 kubectl get ingress -n observability
 ```
@@ -252,7 +262,7 @@ kubectl apply -f service.yaml
 Aguardar alguns minutos e verificar a IP/porta em que o serviço do Grafana está exposto:
 
 ```
-kubectl get service/grafana -n monitoring 
+kubectl get service/grafana -n monitoring
 ```
 
 Apontar o navegador para o IP/porta para acessar o serviço
@@ -294,7 +304,6 @@ Nesse momento como estão os logs no graylog? O que está faltando?
 Como podemos melhorara a visualização e filtragem desses logs?
 
 Analise um pouco e tente entender o que está acontecendo, depois veja os detalhes desse laboratório nesse documento: GraylogExecicioExtra.md [GraylogExecicioExtra.md](https://github.com/aborigene/otel-demo/blob/master/kubernetes/graylog/GraylogExecicioExtra.md) for more details.
-
 
 ### Tendo problemas ou dificuldades ou encontrou um bug?
 
